@@ -1,15 +1,21 @@
-# Python Sanal Ortam (Virtual Environment)
+# Python Sanal Ortam
 venv/
 env/
 __pycache__/
 *.pyc
+.ipynb_checkpoints/
 
-# Büyük Veri Setleri (Paylasilmamasi Gerekenler - Herkes kendi indirmeli)
-data/raw/*.csv
-data/raw/*.parquet
-data/raw/*.pcap
-data/processed/*.csv
-data/processed/*.parquet
+# Veri Setleri (Tamamen Engellendi)
+data/
 
-# Otomatik Olusturulan Grafikler
-output/visualizations/**/*.png
+# Eğitilmiş Modeller (Binary dosyalar GitHub'a gitmemeli)
+models/
+
+# Analiz Sonuçları ve Grafikler
+output/
+metrics/
+
+# Diğer
+.vscode/
+.idea/
+*.log

@@ -2,7 +2,12 @@ pandas
 numpy
 scikit-learn
 xgboost
+tensorflow
+joblib
 matplotlib
 seaborn
 pyarrow
 fastparquet
+# Faz 4: Deployment için (Gelecek Planı)
+fastapi
+uvicorn

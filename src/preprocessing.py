@@ -65,35 +65,18 @@ def encode_labels(df):
     df['Label'] = df['Label'].apply(lambda x: 0 if 'BENIGN' in str(x).upper() else 1)
     
     print(f"Encoded Label Distribution (0: Normal, 1: Attack):\n{df['Label'].value_counts()}")
-    return df
-
-def scale_features(df):
-    print("[5/5] Features are scaled to 0-1 range (MinMaxScaler)...")
     
-    y = df['Label']
-    X = df.drop(columns=['Label'])
+    # Ensure all other columns are numeric
+    print("[5/5] Converting features to numeric...")
+    cols_except_label = [col for col in df.columns if col != 'Label']
+    df[cols_except_label] = df[cols_except_label].apply(pd.to_numeric, errors='coerce')
     
-    # For CICIDS dataset, some flow bytes/s columns might be parsed as object.
-    # Convert all possible numeric columns to float, coerce errors to nan
-    X = X.apply(pd.to_numeric, errors='coerce')
-    
-    # If any new NaNs were introduced by coercion, drop the corresponding rows in X and y
-    nas = X.isna().any(axis=1)
-    if nas.sum() > 0:
-        print(f"Non-numeric values were converted to NaN and {nas.sum()} more rows were deleted.")
-        X = X[~nas]
-        y = y[~nas]
+    initial_rows = len(df)
+    df.dropna(inplace=True) # Drop any rows that became NaN after coercion
+    if len(df) < initial_rows:
+        print(f"Dropped {initial_rows - len(df)} rows due to non-numeric values.")
         
-    scaler = MinMaxScaler()
-    X_scaled = scaler.fit_transform(X)
-    
-    df_processed = pd.DataFrame(X_scaled, columns=X.columns)
-    df_processed['Label'] = y.values
-    
-    print(f"Scaling completed. New data size: {df_processed.shape}")
-    return df_processed
-
-import json
+    return df
 
 def main():
     os.makedirs(RAW_DATA_DIR, exist_ok=True)
@@ -131,7 +114,7 @@ def main():
             df = clean_columns_and_values(df)
             df = feature_selection(df)
             df = encode_labels(df)
-            df = scale_features(df)
+            # SCALING REMOVED FROM HERE TO PREVENT DATA LEAKAGE AS PER HOCA'S ADVICE
             
             rows_after = df.shape[0]
             cols_after = df.shape[1]
@@ -147,7 +130,7 @@ def main():
             })
             
             df.to_csv(processed_filepath, index=False)
-            print(f"Successfully! Cleaned and scaled data saved to: {processed_filepath}")
+            print(f"Successfully! Cleaned data saved to: {processed_filepath}")
             
         except Exception as e:
             print(f"An error occurred while processing {filename}: {e}")
