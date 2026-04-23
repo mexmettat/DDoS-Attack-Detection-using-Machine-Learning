@@ -1,0 +1,15 @@
+# Python Sanal Ortam (Virtual Environment)
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Büyük Veri Setleri (Paylasilmamasi Gerekenler - Herkes kendi indirmeli)
+data/raw/*.csv
+data/raw/*.parquet
+data/raw/*.pcap
+data/processed/*.csv
+data/processed/*.parquet
+
+# Otomatik Olusturulan Grafikler
+output/visualizations/**/*.png
