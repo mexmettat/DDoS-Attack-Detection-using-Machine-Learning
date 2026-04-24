@@ -1,21 +1,24 @@
-# Python Sanal Ortam
+# Python ve Ortam Dosyaları
 venv/
 env/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 .ipynb_checkpoints/
 
-# Veri Setleri (Tamamen Engellendi)
+# Veri Setleri (Ham veriler çok büyük olduğu için gitmez)
 data/
+*.csv
+*.parquet
+*.pcap
 
-# Eğitilmiş Modeller (Binary dosyalar GitHub'a gitmemeli)
-models/
-
-# Analiz Sonuçları ve Grafikler
-output/
-metrics/
-
-# Diğer
+# IDE ve Sistem Dosyaları
 .vscode/
 .idea/
+.DS_Store
 *.log
+*.tmp
+
+# metrics/ ve models/ klasörleri GİTMELİ (Başarı metrikleri ve GUI için)
+# (Bu satırları bilerek boş bıraktım veya yukarıdakilerden çıkardım)
