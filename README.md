@@ -7,6 +7,15 @@
 
 This project is a high-performance network security solution that detects Distributed Denial of Service (DDoS) attacks using **1D-CNN**, **XGBoost**, and **Random Forest**. It is specifically engineered to handle "Zero-Day" scenarios by training on a hybrid dataset architecture.
 
+## 📊 Datasets Used
+The system is trained and validated on two world-standard network security datasets:
+1.  **[CICIDS2017](https://www.kaggle.com/datasets/chethuhn/network-intrusion-dataset):** Baseline for benign traffic and classic network intrusions.
+2.  **[CICDDoS2019](https://www.kaggle.com/datasets/dhoogla/cicddos2019/data):** Focused on modern, diverse DDoS attack vectors.
+
+### 🌊 Addressing Concept Drift
+Network traffic patterns evolve over time (**Concept Drift**). A model trained only on 2017 data typically fails on modern 2019 threats. 
+- **Solution:** We implemented a **Hybrid Injection Strategy**, mixing a portion of 2019 data into the training phase to "re-calibrate" the models for modern threat signatures without losing the 2017 baseline stability.
+
 ---
 
 ## 🏆 Global Performance Overview
