@@ -3,64 +3,66 @@
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.11+-orange.svg)](https://tensorflow.org/)
 [![XGBoost](https://img.shields.io/badge/XGBoost-Latest-green.svg)](https://xgboost.ai/)
+[![Streamlit](https://img.shields.io/badge/UI-Streamlit-red.svg)](https://streamlit.io/)
 
-This project is a high-performance network security solution that detects Distributed Denial of Service (DDoS) attacks using **1D-CNN**, **XGBoost**, and **Random Forest**. It is designed to bridge the gap between older attack patterns (2017) and modern threats (2019).
-
-## 🚀 Key Results (At a Glance)
-| Model | Accuracy | Recall | F1-Score | FPR |
-| :--- | :--- | :--- | :--- | :--- |
-| **XGBoost** | **99.95%** | **99.98%** | **99.96%** | **0.13%** |
-| **Random Forest** | 99.92% | 99.94% | 99.94% | 0.13% |
-| **1D-CNN** | 99.49% | 99.33% | 99.63% | 0.13% |
+This project is a high-performance network security solution that detects Distributed Denial of Service (DDoS) attacks using **1D-CNN**, **XGBoost**, and **Random Forest**. It is specifically engineered to handle "Zero-Day" scenarios by training on a hybrid dataset architecture.
 
 ---
 
-## 📖 Methodology & Strategy
+## 🏆 Global Performance Overview
+The following results were obtained on the **completely unseen CICDDoS2019 dataset** (Zero-Day Test) using a standard 0.50 threshold.
 
-### Hybrid Dataset Engineering
-To achieve these results without data leakage, we implemented a strict split strategy:
-- **Training Set:** 40,000 samples (CICIDS2017) + 5,000 samples (33% of CICDDoS2019 subset).
-- **Zero-Day Test Set:** 10,000 samples (67% of CICDDoS2019 subset) - **Completely unseen during training.**
-
-### Preprocessing
-- **1D-CNN:** Optimized with `MinMaxScaler` for neural stability.
-- **ML Models:** Optimized with `RobustScaler` to handle network traffic outliers.
+| Model | Accuracy | Recall | F1-Score | FPR | Inf. Time |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **XGBoost** | **99.95%** | **99.98%** | **99.96%** | **0.13%** | **~0.4 μs** |
+| **Random Forest** | 99.92% | 99.94% | 99.94% | 0.13% | ~3.0 μs |
+| **1D-CNN** | 99.49% | 99.33% | 99.63% | 0.13% | ~46.0 μs |
 
 ---
 
-## 🏆 Model Performance Analysis
+## 📖 Methodology: Hybrid Data Engineering
+To ensure high generalizability and prevent **Data Leakage**, we implemented a 33/67 split strategy for the modern 2019 dataset:
+- **Phase 1 (Mixed Training):** CICIDS2017 (40k) + 33% of CICDDoS2019 subset (5k).
+- **Phase 2 (Zero-Day Testing):** 67% of CICDDoS2019 subset (10k) - **Strictly isolated.**
+- **Scaling:** `MinMaxScaler` for CNN and `RobustScaler` for ML models to handle network traffic variance.
 
-### 1. XGBoost (The Champion)
-The best performing model with nearly zero false negatives.
-- **Why?** Excellent handling of tabular features and fast inference.
-- **Confusion Matrix:** 
+---
+
+## 🔬 Detailed Model Analysis
+
+### 1. XGBoost (The Top Performer)
+Optimized Gradient Boosting for tabular data.
+- **Validation (2017 Mix):** Accuracy 99.88% | Recall 99.91%
+- **Zero-Day (2019):** Accuracy 99.95% | Recall 99.98%
+- **Confusion Matrix:**
 ![XGBoost Matrix](metrics/xgb_test2019_conf.png)
 
-### 2. 1D-Convolutional Neural Network
-Deep learning approach to capture sequential flow patterns.
-- **Architecture:** 2x Conv1D layers + MaxPooling + Dropout.
+### 2. 1D-Convolutional Neural Network (CNN)
+Captures complex non-linear patterns in network flow.
+- **Validation (2017 Mix):** Accuracy 97.45% | Recall 97.81%
+- **Zero-Day (2019):** Accuracy 99.49% | Recall 99.33%
+- **Training History:**
+![CNN Training History](metrics/cnn_training_plots.png)
 - **Confusion Matrix:**
 ![CNN Matrix](metrics/cnn_test2019_conf.png)
 
-### 3. Random Forest
-Strong ensemble baseline with identical precision/recall balance.
+### 3. Random Forest (Ensemble Baseline)
+Robust classification using a forest of decision trees.
+- **Zero-Day (2019):** Accuracy 99.92% | Recall 99.94%
 - **Confusion Matrix:**
 ![RF Matrix](metrics/rf_test2019_conf.png)
 
 ---
 
-## 🖥️ Interactive Dashboard
-The project includes a **Streamlit** GUI for real-time analysis and explainability.
-
-- **XAI (Explainable AI):** Understand which features (e.g., Init_Win_bytes, Packet Length) are driving the detection.
-- **Live Hunter:** Upload any PCAP-derived CSV for instant threat assessment.
-
-### How to Run
-Please refer to [HOW_TO_RUN.md](HOW_TO_RUN.md) for detailed installation and execution steps.
+## 🖥️ Interactive AI Dashboard
+We developed a professional **Cyber Security Dashboard** using Streamlit.
+- **Live Analysis:** Upload network CSVs for instant threat assessment.
+- **XAI Section:** Visualizes top features (like *Init_Win_bytes*) driving the AI's decision.
+- **Performance Archive:** Browse through confusion matrices and historical metrics within the app.
 
 ---
 
-## 🛠️ Tech Stack
-- **AI/ML:** TensorFlow, Scikit-Learn, XGBoost
-- **Dashboard:** Streamlit, Plotly
-- **Data:** Pandas, NumPy
+## 🛠️ Installation & Usage
+1. Install dependencies: `pip install -r requirements.txt`
+2. Run GUI: `streamlit run src/app_streamlit.py`
+3. See [HOW_TO_RUN.md](HOW_TO_RUN.md) for full details.
