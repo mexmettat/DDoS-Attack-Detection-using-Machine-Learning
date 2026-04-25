@@ -16,6 +16,7 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import os
 import glob
+import json
 
 RAW_DATA_DIR = r"data\raw"
 PROCESSED_DATA_DIR = r"data\processed"
