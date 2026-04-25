@@ -14,16 +14,36 @@ Run the following command to install all required libraries (TensorFlow, XGBoost
 pip install -r requirements.txt
 ```
 
-## 2. Directory Structure
+## 2. Data Preparation & Preprocessing
+
+### 2.1. Prepare Raw Data
+1. Create a folder named `data/raw` in the project root if it doesn't exist.
+2. Place your raw `.csv` or `.parquet` datasets (e.g., CICIDS2017 or CICDDoS2019) into `data/raw/`.
+
+### 2.2. Run Preprocessing
+This script cleans column names, handles infinity/NaN values, encodes labels, and removes identity columns to prevent data leakage.
+```bash
+python src/preprocessing.py
+```
+*Note: Cleaned files will be saved to `data/processed/` automatically.*
+
+## 3. Directory Structure
 Ensure your project folder looks like this:
 ```text
 DDos_attack/
-├── data/processed/     # Place cleaned .csv files here
+├── data/
+│   ├── raw/           # Place raw .csv / .parquet files here
+│   └── processed/     # Cleaned files are generated here
 ├── metrics/           # Performance JSONs and PNGs
-├── models/            # Trained .h5, .pkl and .pkl scalers
+├── models/            # Trained .h5, .pkl and scalers
+├── output/
+│   └── visualizations/# Preprocessing and comparison charts
 ├── src/
-│   ├── train_ml.py    # Traditional ML training script
-│   ├── train_cnn.py   # Deep Learning training script
+│   ├── preprocessing.py # Data cleaning script
+│   ├── train_ml.py      # Traditional ML training script
+│   ├── train_cnn.py     # Deep Learning training script
+│   ├── master_visualization.py # Global dataset comparison
+│   ├── preprocessing_summary_visual.py # Data loss report
 │   └── app_streamlit.py # Interactive GUI
 └── ddos.png           # Dashboard Sidebar Icon
 ```
@@ -42,17 +62,32 @@ This script applies MinMaxScaler and trains the convolutional architecture:
 python src/train_cnn.py
 ```
 
-## 4. Launching the Interactive GUI (Sunum İçin)
+## 5. Visualizing Data & Results
+
+### Preprocessing Report
+To see how much data was dropped and the feature reduction stats:
+```bash
+python src/preprocessing_summary_visual.py
+```
+
+### Master Dataset Comparison
+To see the distribution of Normal vs DDoS packets across all processed datasets:
+```bash
+python src/master_visualization.py
+```
+
+## 6. Launching the Interactive GUI (Sunum İçin)
 To show the project to the professor or for testing, use the Streamlit dashboard:
 ```bash
 streamlit run src/app_streamlit.py
 ```
 
-## 5. Key File Descriptions
+## 7. Key File Descriptions
 - **`models/scaler.pkl`**: Scaler used for ML models.
 - **`models/scaler_cnn.pkl`**: Scaler used for the CNN model.
 - **`models/train_columns.pkl`**: The exact feature list needed for inference (ensures column alignment).
 - **`metrics/`**: Every time you train, this folder updates with the latest Accuracy/Recall scores and Confusion Matrices.
+- **`output/visualizations/`**: Contains global comparison charts and preprocessing dashboards.
 
 ## ⚠️ Important Notes for Group Members
 - **Data Alignment:** If you use a new dataset, the system will automatically try to map the 2019 column names to the 2017 schema.
