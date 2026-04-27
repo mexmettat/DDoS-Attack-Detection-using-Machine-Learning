@@ -5,12 +5,12 @@ import os
 import glob
 import argparse
 
-# Constants defining the directory paths
+# Constants defining the directory paths 
 PROCESSED_DATA_DIR = r"data\processed"
 BASE_OUTPUT_DIR = r"output\visualizations"
 
 def main():
-    # Setup argument parser to read inputs from the terminal
+    # Setup argument parser to read inputs from the terminal 
     parser = argparse.ArgumentParser(description="Visualize processed DDoS datasets.")
     parser.add_argument("--file", type=str, default="all", help="Specific filename to visualize (e.g., 'Syn-training_cleaned.csv'). Default is 'all'.")
     args = parser.parse_args()

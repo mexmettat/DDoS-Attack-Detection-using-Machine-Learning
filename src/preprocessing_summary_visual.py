@@ -27,7 +27,7 @@ def main():
     print("="*80)
     print(df.to_string(index=False))
     
-    # Shorten filenames for better visualization
+    # Shorten filenames for better visualization 
     df['display_name'] = df['file_short'].str.replace('.parquet', '', case=False).str.replace('.csv', '', case=False)
     df['display_name'] = df['display_name'].str.replace('-testing', ' (Test)', case=False).str.replace('-training', ' (Train)', case=False)
     

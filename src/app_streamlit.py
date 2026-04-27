@@ -54,12 +54,9 @@ def load_assets():
     train_cols = joblib.load(columns_path) if os.path.exists(columns_path) else None
     return scaler, scaler_cnn, train_cols
 
-# Load Models and Assets
 models = load_all_models()
 scaler, scaler_cnn, train_cols = load_assets()
 
-# --- SIDEBAR ---
-# Updated Cyber Security Icon
 st.sidebar.image("ddos.png", width=120)
 st.sidebar.header("Scan Parameters")
 selected_model_name = st.sidebar.selectbox("Select AI Engine", list(models.keys()))

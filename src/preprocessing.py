@@ -1,16 +1,3 @@
-"""
-================================================================================
-How does it work ?
-------------------------------
-1. Project source (c:\Projects\DDos_attack) 
-2. Activate virtual environment (venv) 
-   > .\venv\Scripts\activate
-3. Run this code file with the following command:
-   > python src\preprocessing.py
-================================================================================
-
-"""
-
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
@@ -115,8 +102,7 @@ def main():
             df = clean_columns_and_values(df)
             df = feature_selection(df)
             df = encode_labels(df)
-            # SCALING REMOVED FROM HERE TO PREVENT DATA LEAKAGE AS PER HOCA'S ADVICE
-            
+                       
             rows_after = df.shape[0]
             cols_after = df.shape[1]
             removed_nan_inf_rows = rows_before - rows_after
